@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/main.css">
     <title>AI Chatbot</title>
 </head>
 <body>
-    <h1>AI Chatbot</h1>
-    <form method="POST" action="{{ url_for('get_response_from_input') }}">
-        <label for="user_input">You:</label>
-        <input type="text" id="user_input" name="user_input" required>
-        <button type="submit">Send</button>
-    </form>
-    {% if user_input %}
-        <p>You: {{ user_input }}</p>
-    {% endif %}
-    {% if bot_response %}
-        <p>Bot: {{ bot_response }}</p>
-    {% endif %}
+    <div class="contents">
+        <h1>GuardBot: AI Ethics Bot</h1>
+        <form method="POST" action="{{ url_for('get_response_from_input') }}">
+            <label for="user_input">You:</label>
+            <input type="text" id="user_input" name="user_input" required>
+            <button type="submit">Send</button>
+        </form>
+        {% if user_input %}
+            <div class="user">
+                <h1>You:</h1>
+                <p id="user">{{ user_input }}</p>
+            </div>
+        {% endif %}
+        {% if bot_response %}
+            <div class="bot">
+                <h1>Bot:</h1>
+                <p id="bot">{{ bot_response }}</p>
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>

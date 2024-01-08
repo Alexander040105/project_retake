@@ -43,26 +43,42 @@ def message_probability(user_input, recognised_words, user_response=False, requi
     else:
         return 0
 
-
-
+#bagong code ni gpt
 def get_dynamic_responses(user_input, required_words_list, response_list):
     user_input_lower = user_input.lower()
 
-    for i, required_words_dict in enumerate(required_words_list):
-        print(f"Processing required words {i + 1}:", required_words_dict)
-        
-        # Iterate over the key-value pairs in the dictionary
-        for key, value in required_words_dict.items():
-            question = value.lower()
+    highest_prob_list = {}
 
-            if question in user_input_lower:
-                key = f"ai_responses{i}"
-                if key in response_list[1]:
-                    return response_list[1][key]
-    print("")
-    print('key')
-    return "I don't know what you are talking about."
+    for i, required_words in enumerate(required_words_list):
+        print(f"Processing required words {i + 1}:", required_words)
+        response_probability = message_probability(
+            user_input, required_words.values(), user_response=True
+        )
 
+        print(f"Response probability for required words {i + 1}: {response_probability}")
+        key = f"ai_responses{i}"
+        highest_prob_list[key] = response_probability
+
+    print("Debug - highest_prob_list:", highest_prob_list)
+
+    if not highest_prob_list:
+        return "Unknown"
+
+    best_match_key = max(highest_prob_list, key=highest_prob_list.get)
+    best_match_list = [best_match_key]
+
+    print("Debug - best_match_key:", best_match_key)
+
+    # Check if the key exists in the response_list dictionary
+    if best_match_key in response_list[1]:
+        best_match_response = response_list[1][best_match_key]
+    else:
+        # Handle the case when the key doesn't exist
+        best_match_response = "Key not found in response_list"
+
+    print("Debug - best_match_response:", best_match_response)
+
+    return best_match_response
 
 @app.route("/", methods=['POST', 'GET'])
 def get_response_from_input():
@@ -78,6 +94,7 @@ def get_response_from_input():
         return render_template("index.html", user_input=user_input, bot_response=bot_response)
     else:
         return render_template('index.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

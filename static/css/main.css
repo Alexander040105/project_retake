@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap');
+body{
+        background-color: #042959;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        font-size: 2rem;
+        color: #F2F2F2;
+        scroll-behavior: smooth;
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+p{
+    width: 90%;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.user{
+    margin-top: 1rem;
+    padding-left: 2rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 60%;
+    background-color: #F2F2F2;
+    border-radius: 20px;
+    color: #042959;
+
+}
+.user h1{
+    font-size: 2rem;
+    color: #042959;
+    text-align: left;
+}
+
+.bot{
+    margin-top: 1rem;
+    padding-right: 2rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 60%;
+    background-color: #F2F2F2;
+    border-radius: 20px;
+}
+
+.bot h1{
+    font-size: 2rem;
+    color: #042959;
+    text-align: right;
+}
+
+#bot{
+    color: #042959;
+    text-align: right;
+}
+
+.contents{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form  input{
+    height: 2rem;
+    width: 20rem;
+    border: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 80px;
+    border-bottom: 10px;
+    border-color: #BF9E60;
+    padding-left: 10px;
+}
+
+form button{
+    height: 2.2rem;
+    width: 4rem;
+    font-size: 1rem;
+    border-radius: 20px;
+}
