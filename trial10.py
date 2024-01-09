@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import long_responses as long
-import csv
 import re
 
 app = Flask(__name__)
@@ -11,37 +10,51 @@ def message_probability(
     message_certainty = 0
     has_required_words = True
 
-    # Counts how many words are present in each predefined message
     for word in user_message:
         if word in recognised_words:
             message_certainty += 1
 
-    # Calculates the percent of recognised words in a user message
     percentage = float(message_certainty) / float(len(recognised_words))
 
-    # Checks that the required words are in the string
     for word in required_words:
         if word not in user_message:
             has_required_words = False
             break
 
-    # Must either have the required words, or be a single response
     if has_required_words or user_response:
         return int(percentage * 100)
     else:
         return 0
 
-
-
 def check_all_messages(message):
     highest_prob_list = {}
     ai_related = False
-    
-    def response(bot_response, list_of_words, user_response = False, required_words=[], ai_keywords=['ai', 'artificial intellignece', 'machine learning','ml']):
+
+    def response(
+        bot_response,
+        list_of_words,
+        user_response=False,
+        required_words=[],
+        ai_keywords=[
+            "ai",
+            "artificial intelligence",
+            "machine learning",
+            "intelligent machines",
+            "machine learnings",
+        ],
+    ):
         nonlocal highest_prob_list
-        nonlocal ai_related  
-    
-    fact_lists = long.ai_answers()    
+        nonlocal ai_related
+
+        highest_prob_list[bot_response] = message_probability(
+            message, list_of_words, user_response, required_words
+        )
+
+        for word in message:
+            if word in ai_keywords:
+                ai_related = True
+
+    fact_lists = long.ai_answers()
     fact1 = fact_lists[0]
     fact2 = fact_lists[1]
     fact3 = fact_lists[2]
@@ -423,35 +436,20 @@ def check_all_messages(message):
 
     # print(highest_prob_list)
     # print(f'Best match = {best_match} | Score: {highest_prob_list[best_match]}')
-    if highest_prob_list:
-        best_match = max(highest_prob_list, key=highest_prob_list.get())
-        # rest of the code
-    else:
-        # handle the case when highest_prob_list is empty
-        best_match = None
-        print("Highest Prob List:", highest_prob_list)
-        return long.unknown()# or any default value you prefer
+
+    best_match = max(highest_prob_list, key=highest_prob_list.get)
 
     if ai_related == False:
-        return long.unknown() if best_match is None or highest_prob_list[best_match] < 1 else best_match
+        return long.unknown() if highest_prob_list[best_match] < 1 else best_match
     else:
-        return long.unknown_ai() if best_match is None or highest_prob_list[best_match] < 1 else best_match
-    
-            
-
+        return long.unknown_ai() if highest_prob_list[best_match] < 1 else best_match
 
 @app.route("/", methods=['POST', 'GET'])
 def get_response_from_input():
-    def get_response(user_input):
-        split_message = re.split(r"\s+|[,;?!.-]\s*", user_input.lower())
-        response = check_all_messages(split_message)
-        return response
-    
     if request.method == 'POST':
         user_input = request.form.get("user_input")
-        # Call get_dynamic_responses to get the best match
-        bot_response = get_response(user_input)
-
+        split_message = re.split(r"\s+|[,;?!.-]\s*", user_input.lower())
+        bot_response = check_all_messages(split_message)
         return render_template("index.html", user_input=user_input, bot_response=bot_response)
     else:
         return render_template('index.html')
