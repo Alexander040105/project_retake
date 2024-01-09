@@ -13,4 +13,5 @@ def ai_facts():
     fax_list.pop(1)
     print(fax_list)
 
+
 ai_facts()
