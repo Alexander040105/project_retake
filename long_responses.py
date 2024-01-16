@@ -1,6 +1,8 @@
 import random
 import csv
 
+
+#the def ai_answers with the file directory from my laptop
 # def ai_answers():
 #     response = []
 #     with open('C:\\Users\\Alexander Jon\\Documents\\GitHub\\project_retake\\response_sheet.csv', 'r', newline='') as csvfile:
@@ -10,6 +12,8 @@ import csv
             
 #     return response
 
+
+#the def ai_answers with the file directory on my pc
 def ai_answers():
     response = []
     with open('D:\\63947\\Documents\\GitHub\\project_retake\\response_sheet.csv', 'r', newline='') as csvfile:

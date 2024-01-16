@@ -4,6 +4,7 @@ import re
 
 app = Flask(__name__)
 
+#utilizing the same message_probability code from last time
 def message_probability(
     user_message, recognised_words, user_response=False, required_words=[]
 ):
@@ -444,6 +445,8 @@ def check_all_messages(message):
     else:
         return long.unknown_ai() if highest_prob_list[best_match] < 1 else best_match
 
+
+#rendering the python code into the html using the Flask python webframework
 @app.route("/", methods=['POST', 'GET'])
 def get_response_from_input():
     if request.method == 'POST':
