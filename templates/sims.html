@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="contents">
+        <form method="POST" action="{{ url_for('central_tendencies_input') }}">
+            <label for="user_input">You:</label>
+            <input type="text" id="user_input" name="user_input" required>
+            <button type="submit">Send</button>
+        </form>
+
+        {% if user_input %}
+            <div class="user">
+                <h1>You:</h1>
+                <p id="user">{{ user_input }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
